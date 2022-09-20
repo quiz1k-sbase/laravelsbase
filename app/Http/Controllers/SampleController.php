@@ -26,7 +26,7 @@ class SampleController extends Controller
         $request->validate([
             'username' => 'required',
             'email' => 'required|email|unique:users',
-            'firs_name' => 'required',
+            'first_name' => 'required',
             'last_name' => 'required',
             'phone' => 'required|min:9',
             'password' => 'required|min:6',
