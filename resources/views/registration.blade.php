@@ -51,6 +51,24 @@
                                 <span class="text-danger">{{ $errors->first('confirm_password') }}</span>
                             @endif
                         </div>
+                        <div class="form-group mb-3">
+                            <select  id="country-dd" class="form-control">
+                                <option value="">Select Country</option>
+                                @foreach ($countries as $data)
+                                    <option value="{{$data->id}}">
+                                        {{$data->name}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <select id="state-dd" class="form-control">
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <select id="city-dd" class="form-control">
+                            </select>
+                        </div>
                         <button class="btn btn-outline-primary w-100" type="submit">Register me</button>
                     </form>
                     <div class="col-md-12 d-flex justify-content-center">
@@ -60,6 +78,5 @@
             </div>
         </div>
     </div>
-
 
 @endsection('content')

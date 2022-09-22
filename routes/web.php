@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DropdownController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SampleController;
@@ -62,3 +63,7 @@ Route::post('addComment', [CommentController::class, 'store'])->name('comment.ad
 Route::post('editComment', [CommentController::class, 'update'])->name('comment.editComment');
 Route::delete('dashboard/{id}', [PostController::class, 'destroy'])->name('post.destroy');
 Route::delete('dashboard/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+
+Route::get('registration', [DropdownController::class, 'index'])->name('registration');
+Route::post('api/fetch-states', [DropdownController::class, 'fetchState']);
+Route::post('api/fetch-cities', [DropdownController::class, 'fetchCity']);

@@ -12,9 +12,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        //$dataPost = Post::all()->sortByDesc('id');
         $dataPost = Post::join('users', 'user_id', '=', 'users.id')->get(['posts.*', 'users.username'])->sortByDesc('id');
-        //$dataComment = Comment::all()->sortByDesc('id');
         $dataComment= Comment::join('users', 'user_id', '=', 'users.id')->get(['comments.*', 'users.username'])->sortByDesc('id');
         return view('dashboard', compact('dataPost', 'dataComment'));
     }
