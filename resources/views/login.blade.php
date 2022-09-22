@@ -29,8 +29,9 @@
                         </div>
                         <button class="btn btn-outline-primary w-100" type="submit">Log in</button>
                     </form>
-                    <div class="col-md-12 d-flex justify-content-center">
+                    <div class="col-md-12 d-flex justify-content-evenly">
                         <a class="link-primary" href="{{ route('registration') }}">Registration</a>
+                        <a class="link-primary" href="/forgot-password">Reset password</a>
                     </div>
                 </div>
         </div>

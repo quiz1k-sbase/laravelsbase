@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\DropdownController;
+use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SampleController;
@@ -19,7 +21,7 @@ use App\Http\Controllers\PostController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 
 /*Route::get('/login', function () {
@@ -38,15 +40,19 @@ Route::controller(SampleController::class)->group(function () {
 
     Route::get('registration', 'registration')->name('registration');
 
+    Route::get('forgot-password', 'forgotPassword')->name('forgotPassword');
+
     Route::get('logout', 'logout')->name('logout');
 
-    Route::get('dashboard', 'dashboard' )->name('dashboard');
+    Route::get('dashboard', 'dashboard' )->name('dashboard')->middleware(['auth', 'is_verify_email']);
 
     Route::get('author/{id}', 'getAuthor')->name('sample.author');
 
     Route::post('validate_registration', 'validate_registration')->name('sample.validate_registration');
 
     Route::post('validate_login', 'validate_login')->name('sample.validate_login');
+
+    Route::get('account/verify/{token}', 'verifyAccount')->name('user.verify');
 });
 
 Route::resource('dashboard',PostController::class);
@@ -67,3 +73,10 @@ Route::delete('dashboard/comment/{id}', [CommentController::class, 'destroy'])->
 Route::get('registration', [DropdownController::class, 'index'])->name('registration');
 Route::post('api/fetch-states', [DropdownController::class, 'fetchState']);
 Route::post('api/fetch-cities', [DropdownController::class, 'fetchCity']);
+
+Route::get('/forget-password', [ForgotPasswordController::class, 'getEmail'])->name('getEmail');
+Route::post('/forget-password', [ForgotPasswordController::class, 'postEmail'])->name('postEmail');
+
+Route::get('{token}/reset-password', [ResetPasswordController::class, 'getPassword'])->name('getPassword');
+Route::post('/reset-password', [ResetPasswordController::class, 'updatePassword'])->name('updatePassword');
+

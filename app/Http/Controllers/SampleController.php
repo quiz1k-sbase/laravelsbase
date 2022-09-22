@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MyTestMail;
+use App\Models\UserVerify;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class SampleController extends Controller
 {
@@ -30,7 +34,10 @@ class SampleController extends Controller
             'last_name' => 'required',
             'phone' => 'required|min:9',
             'password' => 'required|min:6',
-            'confirm_password' => 'required|min:6'
+            'confirm_password' => 'required|min:6',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required'
         ]);
         $data = $request->all();
         $user = User::create([
@@ -39,10 +46,33 @@ class SampleController extends Controller
             'first_name' => strip_tags($data['first_name']),
             'last_name' => strip_tags($data['last_name']),
             'phone' => strip_tags($data['phone']),
-            'password' => Hash::make($data['password'])
+            'password' => Hash::make($data['password']),
+            'country_id' => $data['country'],
+            'state_id' => $data['state'],
+            'city_id' => $data['city']
         ]);
 
-        return redirect('login')->with('success', 'Registration completed. Sign in');
+        if ($user)
+        {
+            $details = [
+                'title' => 'Mail from LaravelSite.com',
+                'body' => 'Hello, ' . $data['username'] . '! This is testing mail!'
+            ];
+
+            $token = Str::random(64);
+            UserVerify::create([
+                'user_id' => $user->id,
+                'token' => $token
+            ]);
+
+            Mail::to($data['email'])->send(new MyTestMail($details));
+            Mail::send('emails.emailVerificationEmail', ['token' => $token], function($message) use($request){
+                $message->to($request->email);
+                $message->subject('Email Verification Mail');
+            });
+        }
+
+        return redirect('login')->with('success', 'Registration completed. Verify your email and sign in!');
     }
 
     function validate_login(Request $request)
@@ -53,12 +83,12 @@ class SampleController extends Controller
         ]);
 
         $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials))
+        if (Auth::attempt($credentials) && Auth::user()->is_email_verified == 1)
         {
-            return redirect('dashboard');
+            return redirect()->intended('dashboard')->with('success', 'You logged successfully');
         }
 
-        return redirect('login')->with('success', 'Data are not valid');
+        return redirect('login')->with('success', 'Data are not valid or you did not verified your email');
     }
 
     function dashboard()
@@ -84,4 +114,31 @@ class SampleController extends Controller
     {
         return User::where('id', $id)->username;
     }
+
+    function forgotPassword()
+    {
+        return view('email');
+    }
+
+    public function verifyAccount($token)
+    {
+        $verifyUser = UserVerify::where('token', $token)->first();
+
+        $message = 'Sorry your email cannot be identified.';
+
+        if(!is_null($verifyUser) ){
+            $user = $verifyUser->user;
+
+            if(!$user->is_email_verified) {
+                $verifyUser->user->is_email_verified = 1;
+                $verifyUser->user->save();
+                $message = "Your e-mail is verified. You can now login.";
+            } else {
+                $message = "Your e-mail is already verified. You can now login.";
+            }
+        }
+
+        return redirect()->route('login')->with('message', $message);
+    }
+
 }

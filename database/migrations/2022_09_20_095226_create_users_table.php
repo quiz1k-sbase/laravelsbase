@@ -22,6 +22,12 @@ return new class extends Migration
             $table->string('phone');
             $table->string('password');
             $table->timestamps();
+            $table->unsignedInteger('country_id');
+            $table->unsignedInteger('state_id');
+            $table->unsignedInteger('city_id');
+            $table->foreign('country_id')->references('id')->on('countries')->restrictOnDelete()->cascadeOnUpdate();
+            $table->foreign('state_id')->references('id')->on('states')->restrictOnDelete()->cascadeOnUpdate();
+            $table->foreign('city_id')->references('id')->on('cities')->restrictOnDelete()->cascadeOnUpdate();
         });
     }
 

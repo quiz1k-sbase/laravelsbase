@@ -25,6 +25,10 @@ class User extends Authenticatable
         'phone',
         'password',
         'confirm_password',
+        'country_id',
+        'state_id',
+        'city_id',
+        'is_email_verified'
     ];
 
     /**
