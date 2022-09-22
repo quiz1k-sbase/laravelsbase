@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SampleController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,9 +39,24 @@ Route::controller(SampleController::class)->group(function () {
 
     Route::get('logout', 'logout')->name('logout');
 
+    Route::get('dashboard', 'dashboard' )->name('dashboard');
+
     Route::post('validate_registration', 'validate_registration')->name('sample.validate_registration');
 
     Route::post('validate_login', 'validate_login')->name('sample.validate_login');
-
-    Route::get('dashboard', 'dashboard')->name('dashboard');
 });
+
+Route::resource('dashboard',PostController::class);
+
+
+/*Route::controller(PostController::class)->group(function () {
+
+    Route::post('dashboard', 'store')->name('post.store');
+});*/
+
+Route::post('dashboard', [PostController::class, 'store'])->name('post.store');
+Route::post('update', [PostController::class, 'update'])->name('post.update');
+Route::post('addComment', [CommentController::class, 'store'])->name('comment.addComment');
+Route::post('editComment', [CommentController::class, 'update'])->name('comment.editComment');
+Route::delete('dashboard/{id}', [PostController::class, 'destroy'])->name('post.destroy');
+Route::delete('dashboard/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
