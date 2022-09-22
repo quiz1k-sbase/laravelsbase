@@ -79,4 +79,9 @@ class SampleController extends Controller
 
         return Redirect('login');
     }
+
+    function getAuthor($id)
+    {
+        return User::where('id', $id)->username;
+    }
 }

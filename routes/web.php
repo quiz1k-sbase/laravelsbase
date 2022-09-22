@@ -41,6 +41,8 @@ Route::controller(SampleController::class)->group(function () {
 
     Route::get('dashboard', 'dashboard' )->name('dashboard');
 
+    Route::get('author/{id}', 'getAuthor')->name('sample.author');
+
     Route::post('validate_registration', 'validate_registration')->name('sample.validate_registration');
 
     Route::post('validate_login', 'validate_login')->name('sample.validate_login');

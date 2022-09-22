@@ -44,7 +44,7 @@
                                     <p class="card-text" id="card-text-{{ $row->id }}">{{ $row->text }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
-                                            <small class="text-muted">{{ Auth::user()->username }}</small>
+                                            <small class="text-muted">{{  $row->username }}</small>
                                             <!--TODO create normal username output-->
                                         </div>
                                         <small class="text-muted">{{ date('d F Y G:i', strtotime($row->created_at)) }}</small>
@@ -70,7 +70,7 @@
                                                 <div class="card w-50 mt-2" id="comment-{{ $rowComm->id }}">
                                                     <div class="card-body" id="commentBody">
                                                         <p class="card-text" id="comment-text-{{ $rowComm->id }}">{{ $rowComm->comment }}</p>
-                                                        <small class="text-muted">{{ Auth::user()->username }}</small>
+                                                        <small class="text-muted">{{ $rowComm->username }}</small>
                                                         <small class="text-muted">{{ date('d F Y G:i', strtotime($rowComm->created_at)) }}</small>
                                                         @if(Auth::user()->id === $rowComm->user_id)
                                                             <button type="button" class="btn btn-warning" data-bs-toggle="modal"

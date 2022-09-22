@@ -61,6 +61,7 @@ function addPost() {
     let user_id = $("#user_id").val();
     let url = $("#submitButton").data('url');
     const urlEdit = 'http://laravelsite.loc/update';
+    const urlAdd = 'http://laravelsite.loc/addComment';
     $.ajax({
         method: 'POST',
         url: url,
@@ -79,13 +80,14 @@ function addPost() {
                 '<small class="text-muted">'+ data.uName +'</small>' +
                 '</div>' +
                 '<small class="text-muted">'+ data.date +'</small>' +
-                '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="getId('+ data.id +')">\n' +
+                '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" ' +
+                'onclick="getId('+ data.id +')" id=\'add-'+ data.id +'\' data-url=\''+ urlAdd +'\'>\n' +
                 'Add comment' +
                 '</button>' +
                 '<button type=\'button\' class=\'btn btn-warning\' data-bs-toggle=\'modal\' data-bs-target=\'#editPost\' onclick=\'getId('+ data.id +')\' data-url=\''+ urlEdit + '\' id=\'edit-'+ data.id +'\'>Edit</button>' +
                 '<button type=\'button\' class=\'btn btn-danger\' onclick=\'deletePost('+ data.id +')\' data-url=\''+ url + '/' + data.id + '\' id=\'delete-'+ data.id +'\'>Delete</button>' +
                 '</div>' +
-                '<div class="container g-3" id="commentsContainer-">' +
+                '<div class="container g-3" id="commentsContainer-'+ data.id +'">' +
                 '</div></div></div></div> ' + test)
         }
     });
@@ -118,7 +120,7 @@ function addComment() {
                 '<small class="text-muted">' + data.date + '</small> ' +
                 '<button type=\'button\' class=\'btn btn-warning\' data-bs-toggle=\'modal\' ' +
                 'data-bs-target=\'#editComm\' onclick=\'getId('+ data.id +')\'' +
-                'data-url=\''+ urlEdit +'\' id=\'editComm-'+ data.id +'\'>Edit</button>' +
+                'data-url=\''+ urlEdit +'\' id=\'editComm-'+ data.id +'\'>Edit</button>' + ' ' +
                 '<button type=\'button\' class=\'btn btn-danger\' onclick=\'deleteComment(' + data.id + ')\'' +
                 'data-url=\''+ urlDelete + data.id +'\' id=\'deleteComm-'+ data.id +'\'>Delete</button>' +
                 '</div></div>' + test);
