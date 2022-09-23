@@ -20,9 +20,6 @@ use App\Http\Controllers\PostController;
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
 
 /*Route::get('/login', function () {
     return view('login');
@@ -45,6 +42,8 @@ Route::controller(SampleController::class)->group(function () {
     Route::get('logout', 'logout')->name('logout');
 
     Route::get('dashboard', 'dashboard' )->name('dashboard')->middleware(['auth', 'is_verify_email']);
+
+    Route::get('dashboard', 'dashboard' )->name('dashboard')->middleware(['auth', 'isAdmin']);
 
     Route::get('author/{id}', 'getAuthor')->name('sample.author');
 
@@ -79,4 +78,3 @@ Route::post('/forget-password', [ForgotPasswordController::class, 'postEmail'])-
 
 Route::get('{token}/reset-password', [ResetPasswordController::class, 'getPassword'])->name('getPassword');
 Route::post('/reset-password', [ResetPasswordController::class, 'updatePassword'])->name('updatePassword');
-

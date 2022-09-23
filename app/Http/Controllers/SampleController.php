@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 class SampleController extends Controller
 {
@@ -85,7 +86,11 @@ class SampleController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials) && Auth::user()->is_email_verified == 1)
         {
-            return redirect()->intended('dashboard')->with('success', 'You logged successfully');
+            if (Auth::user()->role_as == '1') {
+                return redirect()->intended('dashboard')->with('success', 'Ypu logged in as an Admin');
+            } else {
+                return redirect()->intended('dashboard')->with('success', 'You logged successfully');
+            }
         }
 
         return redirect('login')->with('success', 'Data are not valid or you did not verified your email');
@@ -107,7 +112,7 @@ class SampleController extends Controller
 
         Auth::logout();
 
-        return Redirect('login');
+        return redirect('login');
     }
 
     function getAuthor($id)
@@ -140,5 +145,6 @@ class SampleController extends Controller
 
         return redirect()->route('login')->with('message', $message);
     }
+
 
 }
