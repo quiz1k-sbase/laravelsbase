@@ -5,14 +5,14 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Verify Your Email Address</div>
+                    <div class="card-header">{{ __('dashboard.verifyEmail') }}</div>
                     <div class="card-body">
                         @if (session('resent'))
                             <div class="alert alert-success" role="alert">
-                                {{ __('A fresh verification link has been sent to your email address.') }}
+                                {{ __('dashboard.verifySend') }}
                             </div>
                         @endif
-                        <a class="btn btn-primary btn-lg" href="http://laravelsite.loc/{{$token}}/reset-password">Click Here</a>.
+                        <a class="btn btn-primary btn-lg" href="http://laravelsite.loc/{{$token}}/reset-password">{{ __('dashboard.clickHere') }}</a>.
                     </div>
                 </div>
             </div>

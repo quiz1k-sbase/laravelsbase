@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\DropdownController;
+use App\Http\Controllers\LangController;
 use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,11 @@ use App\Http\Controllers\PostController;
 |
 */
 
+Route::get('lang/{locale}', [App\Http\Controllers\LocalizationController::class, 'index'])->name('lang');
+
+/*Route::get('/', function () {
+    return redirect(app()->getLocale());
+});*/
 
 /*Route::get('/login', function () {
     return view('login');
@@ -33,6 +39,7 @@ Route::post('/register', [\App\Http\Controllers\RegisterController::class, 'regi
 Route::post('/login', [\App\Http\Controllers\LoginController::class, 'login'])->name('login');*/
 
 Route::controller(SampleController::class)->group(function () {
+
     Route::get('login', 'index')->name('login');
 
     Route::get('registration', 'registration')->name('registration');
@@ -52,6 +59,7 @@ Route::controller(SampleController::class)->group(function () {
     Route::post('validate_login', 'validate_login')->name('sample.validate_login');
 
     Route::get('account/verify/{token}', 'verifyAccount')->name('user.verify');
+
 });
 
 Route::resource('dashboard',PostController::class);

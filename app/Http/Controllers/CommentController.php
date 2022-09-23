@@ -30,7 +30,7 @@ class CommentController extends Controller
                 'id' => $comm->id, 'date' => date('d F Y G:i', strtotime($comm->created_at))]);
         }
 
-        return redirect('dashboard')->with('addCommentError', 'Incorrect data');
+        return redirect('dashboard')->with('addCommentError', __('dashboard.incorrectData'));
     }
 
     public function update(Request $request)
@@ -40,12 +40,12 @@ class CommentController extends Controller
         ]);
         $data = $request->all();
         $comm = Comment::where('id', $data['editCommentId'])->update(['comment' => $data['editCommentText']]);
-        return response()->json(['success', 'Updated successfully.', 'text' => $data['editCommentText']]);
+        return response()->json(['success', __('dashboard.updatedSuccessfully'), 'text' => $data['editCommentText']]);
     }
 
     public function destroy($id)
     {
         Comment::where('id', $id)->delete();
-        return response()->json(['success', 'Comment deleted completely.']);
+        return response()->json(['success', __('dashboard.commentDeletedCompletely')]);
     }
 }

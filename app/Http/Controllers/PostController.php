@@ -46,13 +46,13 @@ class PostController extends Controller
         ]);
         $data = $request->all();
         $post = Post::where('id', $data['editPostId'])->update(['text' => $data['editPostText']]);
-        return response()->json(['success', 'Updated successfully.', 'text' => $data['editPostText']]);
+        return response()->json(['success', __('dashboard.updatedSuccessfully'), 'text' => $data['editPostText']]);
     }
 
     public function destroy($id)
     {
         Post::where('id', $id)->delete();
-        return response()->json(['success', 'Post deleted completely.']);
+        return response()->json(['success', __('dashboard.postDeletedCompletely')]);
     }
 
 

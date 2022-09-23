@@ -73,7 +73,7 @@ class SampleController extends Controller
             });
         }
 
-        return redirect('login')->with('success', 'Registration completed. Verify your email and sign in!');
+        return redirect('login')->with('success', __('dashboard.completedRegistration'));
     }
 
     function validate_login(Request $request)
@@ -87,13 +87,13 @@ class SampleController extends Controller
         if (Auth::attempt($credentials) && Auth::user()->is_email_verified == 1)
         {
             if (Auth::user()->role_as == '1') {
-                return redirect()->intended('dashboard')->with('success', 'Ypu logged in as an Admin');
+                return redirect()->intended('dashboard')->with('success', __('dashboard.loggedAdmin'));
             } else {
-                return redirect()->intended('dashboard')->with('success', 'You logged successfully');
+                return redirect()->intended('dashboard')->with('success', __('dashboard.loggedSuccessfully'));
             }
         }
 
-        return redirect('login')->with('success', 'Data are not valid or you did not verified your email');
+        return redirect('login')->with('success', __('dashboard.dataNotValid'));
     }
 
     function dashboard()
@@ -103,7 +103,7 @@ class SampleController extends Controller
             return view('dashboard');
         }
 
-        return redirect('login')->with('success', 'You are not allowed to access');
+        return redirect('login')->with('success', __('dashboard.notAllowed'));
     }
 
     function logout()
@@ -129,7 +129,7 @@ class SampleController extends Controller
     {
         $verifyUser = UserVerify::where('token', $token)->first();
 
-        $message = 'Sorry your email cannot be identified.';
+        $message = __('dashboard.cannotBeIdentify');
 
         if(!is_null($verifyUser) ){
             $user = $verifyUser->user;
@@ -137,9 +137,9 @@ class SampleController extends Controller
             if(!$user->is_email_verified) {
                 $verifyUser->user->is_email_verified = 1;
                 $verifyUser->user->save();
-                $message = "Your e-mail is verified. You can now login.";
+                $message = __('dashboard.verifiedEmail');
             } else {
-                $message = "Your e-mail is already verified. You can now login.";
+                $message = __('dashboard.alreadyVerifiedEmail');
             }
         }
 
