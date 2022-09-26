@@ -36,14 +36,14 @@ class PostController extends Controller
             $post = Post::create([
                 'user_id' => strip_tags($data['user_id']),
                 'text_ru' => strip_tags($data['text']),
-                'image' => $this->storeImage($request),
+                'image' => $this->storeImage($request) ?? null,
             ]);
         }
         elseif ($data['locale'] === 'uk') {
             $post = Post::create([
                 'user_id' => strip_tags($data['user_id']),
                 'text_uk' => strip_tags($data['text']),
-                'image' => $this->storeImage($request),
+                'image' => $this->storeImage($request) ?? null,
             ]);
         }
 
