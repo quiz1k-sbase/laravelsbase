@@ -34,6 +34,9 @@
                     @if($errors->has('text'))
                         <span class="text-danger">{{ $errors->first('text') }}</span>
                     @endif
+                    <div class="mb-3">
+                        <input class="form-control form-control-sm" id="uploadFile" type="file" name="uploadFile">
+                    </div>
                     <button class="btn btn-outline-primary w-100 mt-2" type="submit" onclick="addPost()"
                             data-url="{{ route('post.store') }}" id="submitButton">{{ __('dashboard.add-button') }}</button>
                 </div>

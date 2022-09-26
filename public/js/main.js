@@ -61,16 +61,27 @@ function addPost() {
     let user_id = $("#user_id").val();
     let url = $("#submitButton").data('url');
     let locale = $("#locale").val();
-    const urlEdit = 'http://laravelsite.loc/update';
-    const urlAdd = 'http://laravelsite.loc/addComment';
+
+    var fileInput = document.getElementById('uploadFile');
+    var file = fileInput.files[0];
+    var formData = new FormData();
+    formData.append('file', file);
+    console.log(file);
+    console.log(formData);
+    console.log(fileInput.files);
+
+
     $.ajax({
         method: 'POST',
         url: url,
         data: {
             user_id: user_id,
             text: text,
-            locale: locale
+            locale: locale,
+            file: file
         },
+        processData: false,
+        contentType: false,
         success: function (data) {
             document.getElementById("text").value = '';
             if (locale === 'en') {
@@ -96,8 +107,6 @@ function addComment() {
     let user_id = $("#user_id").val();
     let locale = $("#locale").val();
     let comment = document.getElementById("comment").value;
-    const urlEdit = 'http://laravelsite.loc/editComment';
-    const urlDelete = 'http://laravelsite.loc/dashboard/comment/';
     $.ajax({
         type: 'post',
         url: url,

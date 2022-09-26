@@ -14,6 +14,7 @@ class Post extends Model
         'text_en',
         'text_ru',
         'text_uk',
+        'image',
     ];
 
 
