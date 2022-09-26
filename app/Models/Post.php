@@ -11,7 +11,9 @@ class Post extends Model
 
     protected $fillable = [
         'user_id',
-        'text'
+        'text_en',
+        'text_ru',
+        'text_uk',
     ];
 
 

@@ -3,7 +3,7 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\DropdownController;
-use App\Http\Controllers\LangController;
+use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +21,7 @@ use App\Http\Controllers\PostController;
 |
 */
 
-Route::get('lang/{locale}', [App\Http\Controllers\LocalizationController::class, 'index'])->name('lang');
+Route::get('lang/{locale}', [LocalizationController::class, 'index'])->name('lang');
 
 /*Route::get('/', function () {
     return redirect(app()->getLocale());

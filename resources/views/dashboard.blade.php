@@ -22,13 +22,13 @@
                 </div>
             </div>
         </nav>
-        <h1>{{ session()->get('locale') }}</h1>
         <!--Add post-->
         <section class="py-5 text-center container">
             <div class="row py-lg-5">
                 <div class="d-flex col-lg-6 col-md-8 mx-auto flex-column flex-wrap align-content-center justify-content-center">
                     @csrf
                     <input type="hidden" value="{{ Auth::user()->id }}" name="user_id" id="user_id">
+                    <input type="hidden" value="{{ session()->get('locale') }}" name="locale" id="locale">
                     <label class="form-label">{{ __('dashboard.input-post-name') }}</label><br>
                     <textarea class="form-control w-100" type="text" name="text" rows="3" id="text"></textarea>
                     @if($errors->has('text'))
@@ -48,58 +48,168 @@
                 @if(count($dataPost) > 0)
 
                     @foreach($dataPost as $row)
-                        <div class="col" id="post-{{ $row->id }}">
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <p class="card-text" id="card-text-{{ $row->id }}">{{ $row->text }}</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
-                                            <small class="text-muted">{{  $row->username }}</small>
+                        @if($row->text_en !== null && session()->get('locale') === 'en')
+                            <div class="col" id="post-{{ $row->id }}">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <p class="card-text" id="card-text-{{ $row->id }}">{{ $row->text_en }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <small class="text-muted">{{  $row->username }}</small>
+                                            </div>
+                                            <small class="text-muted">{{ date('d F Y G:i', strtotime($row->created_at)) }}</small>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal" id="add-{{ $row->id }}"
+                                                    data-url="{{ route('comment.addComment') }}" onclick="getId({{ $row->id }})">
+                                                {{ __('dashboard.addComment') }}
+                                            </button>
+                                            @if(Auth::user()->id === $row->user_id || Auth::user()->role_as == '1')
+                                                <button type='button' class='btn btn-warning' data-bs-toggle='modal'
+                                                        data-bs-target='#editPost' onclick='getId({{ $row->id }})'
+                                                        data-url="{{ route('post.update') }}"
+                                                        id="edit-{{ $row->id }}">{{ __('dashboard.edit-button') }}</button>
+                                                <button type='button' class='btn btn-danger' onclick='deletePost({{ $row->id }})'
+                                                        data-url="{{ route('post.destroy', $row->id) }}"
+                                                        id="delete-{{ $row->id }}">{{ __('dashboard.delete-button') }}</button>
+                                            @endif
                                         </div>
-                                        <small class="text-muted">{{ date('d F Y G:i', strtotime($row->created_at)) }}</small>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal" id="add-{{ $row->id }}"
-                                                data-url="{{ route('comment.addComment') }}" onclick="getId({{ $row->id }})">
-                                            {{ __('dashboard.addComment') }}
-                                        </button>
-                                        @if(Auth::user()->id === $row->user_id || Auth::user()->role_as == '1')
-                                            <button type='button' class='btn btn-warning' data-bs-toggle='modal'
-                                                    data-bs-target='#editPost' onclick='getId({{ $row->id }})'
-                                                    data-url="{{ route('post.update') }}"
-                                                    id="edit-{{ $row->id }}">{{ __('dashboard.edit-button') }}</button>
-                                            <button type='button' class='btn btn-danger' onclick='deletePost({{ $row->id }})'
-                                                    data-url="{{ route('post.destroy', $row->id) }}"
-                                                    id="delete-{{ $row->id }}">{{ __('dashboard.delete-button') }}</button>
-                                        @endif
-                                    </div>
-                                    <div class="container g-3" id="commentsContainer-{{ $row->id }}">
-                                        @if(count($dataComment) > 0)
-                                            @foreach($dataComment as $rowComm)
-                                                @if($row->id === $rowComm->post_id)
-                                                <div class="card w-50 mt-2" id="comment-{{ $rowComm->id }}">
-                                                    <div class="card-body" id="commentBody">
-                                                        <p class="card-text" id="comment-text-{{ $rowComm->id }}">{{ $rowComm->comment }}</p>
-                                                        <small class="text-muted">{{ $rowComm->username }}</small>
-                                                        <small class="text-muted">{{ date('d F Y G:i', strtotime($rowComm->created_at)) }}</small>
-                                                        @if(Auth::user()->id === $rowComm->user_id  || Auth::user()->role_as == '1')
-                                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                                data-bs-target="#editComm" onclick="getId({{ $rowComm->id }})"
-                                                                data-url="{{ route('comment.editComment') }}"
-                                                                id="editComm-{{ $rowComm->id }}">{{ __('dashboard.edit-button') }}</button>
-                                                            <button type="button" class="btn btn-danger"
-                                                                onclick="deleteComment({{ $rowComm->id }})"
-                                                                id="deleteComm-{{ $rowComm->id }}"
-                                                                data-url="{{ route('comment.destroy', $rowComm->id) }}">{{ __('dashboard.delete-button') }}</button>
-                                                        @endif
+                                        <div class="container g-3" id="commentsContainer-{{ $row->id }}">
+                                            @if(count($dataComment) > 0)
+                                                @foreach($dataComment as $rowComm)
+                                                    @if($row->id === $rowComm->post_id)
+                                                    <div class="card w-50 mt-2" id="comment-{{ $rowComm->id }}">
+                                                        <div class="card-body" id="commentBody">
+                                                            <p class="card-text" id="comment-text-{{ $rowComm->id }}">{{ $rowComm->comment }}</p>
+                                                            <small class="text-muted">{{ $rowComm->username }}</small>
+                                                            <small class="text-muted">{{ date('d F Y G:i', strtotime($rowComm->created_at)) }}</small>
+                                                            @if(Auth::user()->id === $rowComm->user_id  || Auth::user()->role_as == '1')
+                                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                                    data-bs-target="#editComm" onclick="getId({{ $rowComm->id }})"
+                                                                    data-url="{{ route('comment.editComment') }}"
+                                                                    id="editComm-{{ $rowComm->id }}">{{ __('dashboard.edit-button') }}</button>
+                                                                <button type="button" class="btn btn-danger"
+                                                                    onclick="deleteComment({{ $rowComm->id }})"
+                                                                    id="deleteComm-{{ $rowComm->id }}"
+                                                                    data-url="{{ route('comment.destroy', $rowComm->id) }}">{{ __('dashboard.delete-button') }}</button>
+                                                            @endif
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                @endif
-                                            @endforeach
-                                        @endif
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
+                        @if($row->text_ru !== null && session()->get('locale') === 'ru')
+                            <div class="col" id="post-{{ $row->id }}">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <p class="card-text" id="card-text-{{ $row->id }}">{{ $row->text_ru }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <small class="text-muted">{{  $row->username }}</small>
+                                            </div>
+                                            <small class="text-muted">{{ date('d F Y G:i', strtotime($row->created_at)) }}</small>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal" id="add-{{ $row->id }}"
+                                                    data-url="{{ route('comment.addComment') }}" onclick="getId({{ $row->id }})">
+                                                {{ __('dashboard.addComment') }}
+                                            </button>
+                                            @if(Auth::user()->id === $row->user_id || Auth::user()->role_as == '1')
+                                                <button type='button' class='btn btn-warning' data-bs-toggle='modal'
+                                                        data-bs-target='#editPost' onclick='getId({{ $row->id }})'
+                                                        data-url="{{ route('post.update') }}"
+                                                        id="edit-{{ $row->id }}">{{ __('dashboard.edit-button') }}</button>
+                                                <button type='button' class='btn btn-danger' onclick='deletePost({{ $row->id }})'
+                                                        data-url="{{ route('post.destroy', $row->id) }}"
+                                                        id="delete-{{ $row->id }}">{{ __('dashboard.delete-button') }}</button>
+                                            @endif
+                                        </div>
+                                        <div class="container g-3" id="commentsContainer-{{ $row->id }}">
+                                            @if(count($dataComment) > 0)
+                                                @foreach($dataComment as $rowComm)
+                                                    @if($row->id === $rowComm->post_id)
+                                                        <div class="card w-50 mt-2" id="comment-{{ $rowComm->id }}">
+                                                            <div class="card-body" id="commentBody">
+                                                                <p class="card-text" id="comment-text-{{ $rowComm->id }}">{{ $rowComm->comment }}</p>
+                                                                <small class="text-muted">{{ $rowComm->username }}</small>
+                                                                <small class="text-muted">{{ date('d F Y G:i', strtotime($rowComm->created_at)) }}</small>
+                                                                @if(Auth::user()->id === $rowComm->user_id  || Auth::user()->role_as == '1')
+                                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                                            data-bs-target="#editComm" onclick="getId({{ $rowComm->id }})"
+                                                                            data-url="{{ route('comment.editComment') }}"
+                                                                            id="editComm-{{ $rowComm->id }}">{{ __('dashboard.edit-button') }}</button>
+                                                                    <button type="button" class="btn btn-danger"
+                                                                            onclick="deleteComment({{ $rowComm->id }})"
+                                                                            id="deleteComm-{{ $rowComm->id }}"
+                                                                            data-url="{{ route('comment.destroy', $rowComm->id) }}">{{ __('dashboard.delete-button') }}</button>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        @if($row->text_uk !== null && session()->get('locale') === 'uk')
+                            <div class="col" id="post-{{ $row->id }}">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <p class="card-text" id="card-text-{{ $row->id }}">{{ $row->text_uk }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <small class="text-muted">{{  $row->username }}</small>
+                                            </div>
+                                            <small class="text-muted">{{ date('d F Y G:i', strtotime($row->created_at)) }}</small>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal" id="add-{{ $row->id }}"
+                                                    data-url="{{ route('comment.addComment') }}" onclick="getId({{ $row->id }})">
+                                                {{ __('dashboard.addComment') }}
+                                            </button>
+                                            @if(Auth::user()->id === $row->user_id || Auth::user()->role_as == '1')
+                                                <button type='button' class='btn btn-warning' data-bs-toggle='modal'
+                                                        data-bs-target='#editPost' onclick='getId({{ $row->id }})'
+                                                        data-url="{{ route('post.update') }}"
+                                                        id="edit-{{ $row->id }}">{{ __('dashboard.edit-button') }}</button>
+                                                <button type='button' class='btn btn-danger' onclick='deletePost({{ $row->id }})'
+                                                        data-url="{{ route('post.destroy', $row->id) }}"
+                                                        id="delete-{{ $row->id }}">{{ __('dashboard.delete-button') }}</button>
+                                            @endif
+                                        </div>
+                                        <div class="container g-3" id="commentsContainer-{{ $row->id }}">
+                                            @if(count($dataComment) > 0)
+                                                @foreach($dataComment as $rowComm)
+                                                    @if($row->id === $rowComm->post_id)
+                                                        <div class="card w-50 mt-2" id="comment-{{ $rowComm->id }}">
+                                                            <div class="card-body" id="commentBody">
+                                                                <p class="card-text" id="comment-text-{{ $rowComm->id }}">{{ $rowComm->comment }}</p>
+                                                                <small class="text-muted">{{ $rowComm->username }}</small>
+                                                                <small class="text-muted">{{ date('d F Y G:i', strtotime($rowComm->created_at)) }}</small>
+                                                                @if(Auth::user()->id === $rowComm->user_id  || Auth::user()->role_as == '1')
+                                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                                            data-bs-target="#editComm" onclick="getId({{ $rowComm->id }})"
+                                                                            data-url="{{ route('comment.editComment') }}"
+                                                                            id="editComm-{{ $rowComm->id }}">{{ __('dashboard.edit-button') }}</button>
+                                                                    <button type="button" class="btn btn-danger"
+                                                                            onclick="deleteComment({{ $rowComm->id }})"
+                                                                            id="deleteComm-{{ $rowComm->id }}"
+                                                                            data-url="{{ route('comment.destroy', $rowComm->id) }}">{{ __('dashboard.delete-button') }}</button>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     @endforeach
 
                 @else

@@ -25,10 +25,24 @@ class PostController extends Controller
         ]);
 
         $data = $request->all();
-        $post = Post::create([
-           'user_id' => strip_tags($data['user_id']),
-           'text' => strip_tags($data['text'])
-        ]);
+        if ($data['locale'] === 'en') {
+            $post = Post::create([
+                'user_id' => strip_tags($data['user_id']),
+                'text_en' => strip_tags($data['text'])
+            ]);
+        }
+        elseif ($data['locale'] === 'ru') {
+            $post = Post::create([
+                'user_id' => strip_tags($data['user_id']),
+                'text_ru' => strip_tags($data['text'])
+            ]);
+        }
+        elseif ($data['locale'] === 'uk') {
+            $post = Post::create([
+                'user_id' => strip_tags($data['user_id']),
+                'text_uk' => strip_tags($data['text'])
+            ]);
+        }
 
         if ($post)
         {
@@ -45,7 +59,14 @@ class PostController extends Controller
             'editPostText' => 'required|min:1'
         ]);
         $data = $request->all();
-        $post = Post::where('id', $data['editPostId'])->update(['text' => $data['editPostText']]);
+        if ($data['locale'] === 'en') {
+            $post = Post::where('id', $data['editPostId'])->update(['text_en' => $data['editPostText']]);
+        }
+        elseif ($data['locale'] === 'ru') {
+            $post = Post::where('id', $data['editPostId'])->update(['text_ru' => $data['editPostText']]);
+        }if ($data['locale'] === 'uk') {
+            $post = Post::where('id', $data['editPostId'])->update(['text_uk' => $data['editPostText']]);
+        }
         return response()->json(['success', __('dashboard.updatedSuccessfully'), 'text' => $data['editPostText']]);
     }
 
