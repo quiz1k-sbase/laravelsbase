@@ -60,6 +60,10 @@ Route::controller(SampleController::class)->group(function () {
 
     Route::get('account/verify/{token}', 'verifyAccount')->name('user.verify');
 
+    Route::post('content/post', 'store')->name('content.post');
+
+    Route::post('content/comment', 'store')->name('content.comment');
+
 });
 
 Route::resource('dashboard',PostController::class);

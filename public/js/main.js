@@ -75,63 +75,15 @@ function addPost() {
             document.getElementById("text").value = '';
             if (locale === 'en') {
                 let test = $("#all_comments").html();
-                $("#all_comments").html('<div class="col" id="post-' + data.id + '">' +
-                    '<div class="card shadow-sm"><div class="card-body">' +
-                    '<p class="card-text" id="card-text-' + data.id + '">' + text + '' +
-                    '<div class="d-flex justify-content-between align-items-center">' +
-                    '<div class="btn-group">' +
-                    '<small class="text-muted">' + data.uName + '</small>' +
-                    '</div>' +
-                    '<small class="text-muted">' + data.date + '</small>' +
-                    '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" ' +
-                    'onclick="getId(' + data.id + ')" id=\'add-' + data.id + '\' data-url=\'' + urlAdd + '\'>\n' +
-                    'Add comment' +
-                    '</button>' +
-                    '<button type=\'button\' class=\'btn btn-warning\' data-bs-toggle=\'modal\' data-bs-target=\'#editPost\' onclick=\'getId(' + data.id + ')\' data-url=\'' + urlEdit + '\' id=\'edit-' + data.id + '\'>Edit</button>' +
-                    '<button type=\'button\' class=\'btn btn-danger\' onclick=\'deletePost(' + data.id + ')\' data-url=\'' + url + '/' + data.id + '\' id=\'delete-' + data.id + '\'>Delete</button>' +
-                    '</div>' +
-                    '<div class="container g-3" id="commentsContainer-' + data.id + '">' +
-                    '</div></div></div></div> ' + test)
+                $('#all_comments').html(data.html + test);
             }
             else if (locale === 'ru') {
                 let test = $("#all_comments").html();
-                $("#all_comments").html('<div class="col" id="post-' + data.id + '">' +
-                    '<div class="card shadow-sm"><div class="card-body">' +
-                    '<p class="card-text" id="card-text-' + data.id + '">' + text + '' +
-                    '<div class="d-flex justify-content-between align-items-center">' +
-                    '<div class="btn-group">' +
-                    '<small class="text-muted">' + data.uName + '</small>' +
-                    '</div>' +
-                    '<small class="text-muted">' + data.date + '</small>' +
-                    '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" ' +
-                    'onclick="getId(' + data.id + ')" id=\'add-' + data.id + '\' data-url=\'' + urlAdd + '\'>\n' +
-                    'Добавить комментарий' +
-                    '</button>' +
-                    '<button type=\'button\' class=\'btn btn-warning\' data-bs-toggle=\'modal\' data-bs-target=\'#editPost\' onclick=\'getId(' + data.id + ')\' data-url=\'' + urlEdit + '\' id=\'edit-' + data.id + '\'>Редактировать</button>' +
-                    '<button type=\'button\' class=\'btn btn-danger\' onclick=\'deletePost(' + data.id + ')\' data-url=\'' + url + '/' + data.id + '\' id=\'delete-' + data.id + '\'>Удалить</button>' +
-                    '</div>' +
-                    '<div class="container g-3" id="commentsContainer-' + data.id + '">' +
-                    '</div></div></div></div> ' + test)
+                $('#all_comments').html(data.html + test);
             }
             else if (locale === 'uk') {
                 let test = $("#all_comments").html();
-                $("#all_comments").html('<div class="col" id="post-' + data.id + '">' +
-                    '<div class="card shadow-sm"><div class="card-body">' +
-                    '<p class="card-text" id="card-text-' + data.id + '">' + text + '' +
-                    '<div class="d-flex justify-content-between align-items-center">' +
-                    '<div class="btn-group">' +
-                    '<small class="text-muted">' + data.uName + '</small>' +
-                    '</div>' +
-                    '<small class="text-muted">' + data.date + '</small>' +
-                    '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" ' +
-                    'onclick="getId(' + data.id + ')" id=\'add-' + data.id + '\' data-url=\'' + urlAdd + '\'>\n' +
-                    'Додати коментар' +
-                    '</button>' +
-                    '<button type=\'button\' class=\'btn btn-warning\' data-bs-toggle=\'modal\' data-bs-target=\'#editPost\' onclick=\'getId(' + data.id + ')\' data-url=\'' + urlEdit + '\' id=\'edit-' + data.id + '\'>Редагувати</button>' +
-                    '<button type=\'button\' class=\'btn btn-danger\' onclick=\'deletePost(' + data.id + ')\' data-url=\'' + url + '/' + data.id + '\' id=\'delete-' + data.id + '\'>Видалити</button>' +
-                    '</div>' +
-                    '<div class="container g-3" id="commentsContainer-' + data.id + '">' +
-                    '</div></div></div></div> ' + test)
+                $('#all_comments').html(data.html + test);
             }
         }
     });
@@ -160,45 +112,15 @@ function addComment() {
             document.getElementById("closeModal").click();
             if (locale === 'en') {
                 let test = $("#commentsContainer-" + id).html();
-                $("#commentsContainer-" + id).html('<div class="card w-50 mt-2" id="comment-' + data.id + '">' +
-                    '<div class="card-body" id="commentBody">' +
-                    '<p class="card-text" id="comment-text-' + data.id + '">' + comment + '</p>' +
-                    '<small class="text-muted">' + data.uName + '</small> ' +
-                    '<small class="text-muted">' + data.date + '</small> ' +
-                    '<button type=\'button\' class=\'btn btn-warning\' data-bs-toggle=\'modal\' ' +
-                    'data-bs-target=\'#editComm\' onclick=\'getId(' + data.id + ')\'' +
-                    'data-url=\'' + urlEdit + '\' id=\'editComm-' + data.id + '\'>Edit</button>' + ' ' +
-                    '<button type=\'button\' class=\'btn btn-danger\' onclick=\'deleteComment(' + data.id + ')\'' +
-                    'data-url=\'' + urlDelete + data.id + '\' id=\'deleteComm-' + data.id + '\'>Delete</button>' +
-                    '</div></div>' + test);
+                $('#commentsContainer-' + id).html(data.html + test);
             }
             else if (locale === 'ru') {
                 let test = $("#commentsContainer-" + id).html();
-                $("#commentsContainer-" + id).html('<div class="card w-50 mt-2" id="comment-' + data.id + '">' +
-                    '<div class="card-body" id="commentBody">' +
-                    '<p class="card-text" id="comment-text-' + data.id + '">' + comment + '</p>' +
-                    '<small class="text-muted">' + data.uName + '</small> ' +
-                    '<small class="text-muted">' + data.date + '</small> ' +
-                    '<button type=\'button\' class=\'btn btn-warning\' data-bs-toggle=\'modal\' ' +
-                    'data-bs-target=\'#editComm\' onclick=\'getId(' + data.id + ')\'' +
-                    'data-url=\'' + urlEdit + '\' id=\'editComm-' + data.id + '\'>Редактировать</button>' + ' ' +
-                    '<button type=\'button\' class=\'btn btn-danger\' onclick=\'deleteComment(' + data.id + ')\'' +
-                    'data-url=\'' + urlDelete + data.id + '\' id=\'deleteComm-' + data.id + '\'>Удалить</button>' +
-                    '</div></div>' + test);
+                $('#commentsContainer-' + id).html(data.html + test);
             }
             else if (locale === 'uk') {
                 let test = $("#commentsContainer-" + id).html();
-                $("#commentsContainer-" + id).html('<div class="card w-50 mt-2" id="comment-' + data.id + '">' +
-                    '<div class="card-body" id="commentBody">' +
-                    '<p class="card-text" id="comment-text-' + data.id + '">' + comment + '</p>' +
-                    '<small class="text-muted">' + data.uName + '</small> ' +
-                    '<small class="text-muted">' + data.date + '</small> ' +
-                    '<button type=\'button\' class=\'btn btn-warning\' data-bs-toggle=\'modal\' ' +
-                    'data-bs-target=\'#editComm\' onclick=\'getId(' + data.id + ')\'' +
-                    'data-url=\'' + urlEdit + '\' id=\'editComm-' + data.id + '\'>Редагувати</button>' + ' ' +
-                    '<button type=\'button\' class=\'btn btn-danger\' onclick=\'deleteComment(' + data.id + ')\'' +
-                    'data-url=\'' + urlDelete + data.id + '\' id=\'deleteComm-' + data.id + '\'>Видалити</button>' +
-                    '</div></div>' + test);
+                $('#commentsContainer-' + id).html(data.html + test);
             }
         }
     });

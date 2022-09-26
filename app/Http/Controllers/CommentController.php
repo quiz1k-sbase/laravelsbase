@@ -26,8 +26,17 @@ class CommentController extends Controller
 
         if ($comm)
         {
-            return response()->json(['success' => 'Post created successfully.', 'uName' => Auth::user()->username,
-                'id' => $comm->id, 'date' => date('d F Y G:i', strtotime($comm->created_at))]);
+            /*return response()->json(['success' => 'Post created successfully.', 'uName' => Auth::user()->username,
+                'id' => $comm->id, 'date' => date('d F Y G:i', strtotime($comm->created_at))]);*/
+            $responseCommentArray = [
+                'id' => $comm->id,
+                'uName' => Auth::user()->username,
+                'date' => date('d F Y G:i', strtotime($comm->created_at)),
+                'comment' => $comm->comment
+            ];
+            $html = view('content.comment')->with('responseCommentArray', $responseCommentArray)
+                ->renderSections()['commentContent'];
+            return response()->json(['success' => 'Post created successfully.', 'html' => $html]);
         }
 
         return redirect('dashboard')->with('addCommentError', __('dashboard.incorrectData'));

@@ -44,10 +44,24 @@ class PostController extends Controller
             ]);
         }
 
-        if ($post)
-        {
-            return response()->json(['success' => 'Post created successfully.', 'uName' => Auth::user()->username,
-                'id' => $post->id, 'date' => date('d F Y G:i', strtotime($post->created_at))]);
+        if ($post) {
+            if ($data['locale'] === 'en') {
+                $text = $post->text_en;
+            }
+            elseif ($data['locale'] === 'ru') {
+                $text = $post->text_ru;
+            }
+            elseif ($data['locale'] === 'uk') {
+                $text = $post->text_uk;
+            }
+            $responsePostArray = [
+                'id' => $post->id,
+                'uName' => Auth::user()->username,
+                'date' => date('d F Y G:i', strtotime($post->created_at)),
+                'text' => $text,
+            ];
+            $html = view('content.post')->with('responsePostArray', $responsePostArray)->renderSections()['postContent'];
+            return response()->json(['success' => 'Post created successfully', 'html' => $html]);
         }
 
         return redirect('dashboard')->with('addPostError', 'Incorrect data');

@@ -86,7 +86,7 @@ class SampleController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials) && Auth::user()->is_email_verified == 1)
         {
-            if (Auth::user()->role_as == '1') {
+            if (Auth::user()->isAdmin()) {
                 return redirect()->intended('dashboard')->with('success', __('dashboard.loggedAdmin'));
             } else {
                 return redirect()->intended('dashboard')->with('success', __('dashboard.loggedSuccessfully'));

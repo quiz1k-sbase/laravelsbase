@@ -63,7 +63,7 @@
                                                     data-url="{{ route('comment.addComment') }}" onclick="getId({{ $row->id }})">
                                                 {{ __('dashboard.addComment') }}
                                             </button>
-                                            @if(Auth::user()->id === $row->user_id || Auth::user()->role_as == '1')
+                                            @if(Auth::user()->id === $row->user_id || Auth::user()->isAdmin())
                                                 <button type='button' class='btn btn-warning' data-bs-toggle='modal'
                                                         data-bs-target='#editPost' onclick='getId({{ $row->id }})'
                                                         data-url="{{ route('post.update') }}"
@@ -82,7 +82,7 @@
                                                             <p class="card-text" id="comment-text-{{ $rowComm->id }}">{{ $rowComm->comment }}</p>
                                                             <small class="text-muted">{{ $rowComm->username }}</small>
                                                             <small class="text-muted">{{ date('d F Y G:i', strtotime($rowComm->created_at)) }}</small>
-                                                            @if(Auth::user()->id === $rowComm->user_id  || Auth::user()->role_as == '1')
+                                                            @if(Auth::user()->id === $rowComm->user_id  || Auth::user()->isAdmin())
                                                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                                                     data-bs-target="#editComm" onclick="getId({{ $rowComm->id }})"
                                                                     data-url="{{ route('comment.editComment') }}"
