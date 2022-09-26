@@ -22,27 +22,28 @@ class PostController extends Controller
         $request->validate([
             'user_id' => 'required',
             'text' => 'required|min:1',
-            'file' => 'image|mimes:png,jpg,jpeg|max:2048'
+            'file' => 'nullable|max:2048|'
         ]);
-
         $data = $request->all();
         if ($data['locale'] === 'en') {
             $post = Post::create([
                 'user_id' => strip_tags($data['user_id']),
                 'text_en' => strip_tags($data['text']),
-                'image' => $this->storeImage($request),
+                'image' => $this->storeImage($request) ?? null,
             ]);
         }
         elseif ($data['locale'] === 'ru') {
             $post = Post::create([
                 'user_id' => strip_tags($data['user_id']),
-                'text_ru' => strip_tags($data['text'])
+                'text_ru' => strip_tags($data['text']),
+                'image' => $this->storeImage($request),
             ]);
         }
         elseif ($data['locale'] === 'uk') {
             $post = Post::create([
                 'user_id' => strip_tags($data['user_id']),
-                'text_uk' => strip_tags($data['text'])
+                'text_uk' => strip_tags($data['text']),
+                'image' => $this->storeImage($request),
             ]);
         }
 
@@ -95,8 +96,13 @@ class PostController extends Controller
 
     private function storeImage(Request $request)
     {
-        $newImageName = uniqid() . '-photo' . '.' . $request->file->extension();
-        return $request->file->move('images/', $newImageName);
+        if ($request->file != 'undefined') {
+            $newImageName = uniqid() . '-photo' . '.' . $request->file->extension();
+            return $request->file->move('images/', $newImageName);
+        }
+        else {
+            return null;
+        }
     }
 
 

@@ -113,6 +113,9 @@
                                 <div class="card shadow-sm">
                                     <div class="card-body">
                                         <p class="card-text" id="card-text-{{ $row->id }}">{{ $row->text_ru }}</p>
+                                        @if($row->image)
+                                            <img src="{{ $row->image  }}" class="photo">
+                                        @endif
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="btn-group">
                                                 <small class="text-muted">{{  $row->username }}</small>
@@ -167,6 +170,9 @@
                                 <div class="card shadow-sm">
                                     <div class="card-body">
                                         <p class="card-text" id="card-text-{{ $row->id }}">{{ $row->text_uk }}</p>
+                                        @if($row->image)
+                                            <img src="{{ $row->image }}" class="photo">
+                                        @endif
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="btn-group">
                                                 <small class="text-muted">{{  $row->username }}</small>
