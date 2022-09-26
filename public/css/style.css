@@ -12,3 +12,8 @@ body {
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+
+.photo {
+    width: 248px;
+    height: 248px;
+}

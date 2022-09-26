@@ -3,6 +3,9 @@
         <div class="card shadow-sm">
             <div class="card-body">
                 <p class="card-text" id="card-text-{{ $responsePostArray['id'] }}">{{ $responsePostArray['text'] }}</p>
+                @if($responsePostArray['image'])
+                    <img src="{{ $responsePostArray['image']  }}" class="photo">
+                @endif
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                         <small class="text-muted">{{  $responsePostArray['uName'] }}</small>

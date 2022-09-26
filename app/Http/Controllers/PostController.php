@@ -19,20 +19,18 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
         $request->validate([
             'user_id' => 'required',
             'text' => 'required|min:1',
-            'uploadFile' => 'image|mimes:png,jpg,jpeg|max:2048'
+            'file' => 'image|mimes:png,jpg,jpeg|max:2048'
         ]);
 
-        dd($request->all());
         $data = $request->all();
         if ($data['locale'] === 'en') {
             $post = Post::create([
                 'user_id' => strip_tags($data['user_id']),
                 'text_en' => strip_tags($data['text']),
-                //'image' =>
+                'image' => $this->storeImage($request),
             ]);
         }
         elseif ($data['locale'] === 'ru') {
@@ -63,6 +61,7 @@ class PostController extends Controller
                 'uName' => Auth::user()->username,
                 'date' => date('d F Y G:i', strtotime($post->created_at)),
                 'text' => $text,
+                'image' => $post->image,
             ];
             $html = view('content.post')->with('responsePostArray', $responsePostArray)->renderSections()['postContent'];
             return response()->json(['success' => 'Post created successfully', 'html' => $html]);
@@ -96,8 +95,8 @@ class PostController extends Controller
 
     private function storeImage(Request $request)
     {
-        $newImageName = uniqid() . '-' . $request->id . '.' . $request->image->extansion();
-        return $request->image->move(public_path('images', $newImageName));
+        $newImageName = uniqid() . '-photo' . '.' . $request->file->extension();
+        return $request->file->move('images/', $newImageName);
     }
 
 

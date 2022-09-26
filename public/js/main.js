@@ -66,20 +66,13 @@ function addPost() {
     var file = fileInput.files[0];
     var formData = new FormData();
     formData.append('file', file);
-    console.log(file);
-    console.log(formData);
-    console.log(fileInput.files);
-
-
+    formData.append('text', text);
+    formData.append('user_id', user_id);
+    formData.append('locale', locale);
     $.ajax({
         method: 'POST',
         url: url,
-        data: {
-            user_id: user_id,
-            text: text,
-            locale: locale,
-            file: file
-        },
+        data: formData,
         processData: false,
         contentType: false,
         success: function (data) {
