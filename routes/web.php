@@ -5,10 +5,12 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\ResetPasswordController;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SampleController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TwitterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,3 +92,15 @@ Route::post('/forget-password', [ForgotPasswordController::class, 'postEmail'])-
 
 Route::get('{token}/reset-password', [ResetPasswordController::class, 'getPassword'])->name('getPassword');
 Route::post('/reset-password', [ResetPasswordController::class, 'updatePassword'])->name('updatePassword');
+
+Route::get('weather', function () {
+    $location = 'Kremenchuk';
+    $key = config('services.openweather.key');
+
+    $response = Http::get("https://api.openweathermap.org/data/2.5/weather?q={$location}&appid={$key}&units=metric");
+    return view('weather.weather', [
+        'currentWeather' => $response->json(),
+    ]);
+});
+
+Route::get('/tweets', TwitterController::class)->name('tweets');
