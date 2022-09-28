@@ -5,6 +5,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\ScraperController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
@@ -104,3 +105,7 @@ Route::get('weather', function () {
 });
 
 Route::get('/tweets', TwitterController::class)->name('tweets');
+
+Route::get('autoria', [ScraperController::class, 'index'])->name('autoria');
+Route::post('autoria/fetch-model', [ScraperController::class, 'getModel'])->name('autoria.getModel');
+Route::post('autoria', [ScraperController::class, 'scraper'])->name('autoria.car');
