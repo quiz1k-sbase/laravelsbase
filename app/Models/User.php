@@ -52,7 +52,11 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        if ($this->where('is_admin') === 1);
-        return true;
+        if ($this->where('id', $this->id)->value('is_admin') === 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

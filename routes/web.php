@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\DropdownController;
+use App\Http\Controllers\GraphController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ScraperController;
@@ -66,6 +67,8 @@ Route::controller(SampleController::class)->group(function () {
     Route::post('content/post', 'store')->name('content.post');
 
     Route::post('content/comment', 'store')->name('content.comment');
+
+    Route::get('admin/graphs', [GraphController::class, 'index'])->name('graph');
 
 });
 
