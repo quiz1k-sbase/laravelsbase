@@ -8,7 +8,8 @@
                 @endif
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <small class="text-muted">{{  $responsePostArray['uName'] }}</small>
+                        <small class="text-muted me-2">{{  $responsePostArray['uName'] }} </small>
+                        <span class="text-success"> {{ __('dashboard.online') }}</span>
                     </div>
                     <small class="text-muted">{{ $responsePostArray['date'] }}</small>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"

@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'required' => 'Поле має бути заповненим',
+    'required' => 'Поле :attribute має бути заповненим',
 ];

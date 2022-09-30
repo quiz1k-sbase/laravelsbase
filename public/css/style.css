@@ -17,3 +17,48 @@ body {
     width: 248px;
     height: 248px;
 }
+
+.price {
+    color: #009800;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+svg {
+    display: none;
+}
+
+.history-date {
+    background-color: #219be7;
+    color: #fff;
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-left: -5px;
+    cursor: default;
+    font-size: 13px;
+}
+
+.item {
+    margin: 20px 0;
+    padding-left: 15px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.item:after {
+    display: block;
+    position: absolute;
+    top: 6px;
+    left: 4px;
+    width: 6px;
+    height: 6px;
+    background: #219be7;
+    border-radius: 50%;
+    content: "";
+}
+
+.autoria-vin {
+    height: 120px;
+    overflow: auto;
+}

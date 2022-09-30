@@ -1,4 +1,4 @@
 <?php
 return [
-    'required' => 'Field must be required',
+    'required' => 'Field :attribute must be required',
 ];

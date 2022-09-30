@@ -52,4 +52,7 @@ return [
     'verifiedEmail' => 'Your e-mail is verified. You can now login.',
     'alreadyVerifiedEmail' => 'Your e-mail is already verified. You can now login.',
     'required' => 'must be required',
+    'online' => 'Online',
+    'offline' => 'Offline, last seen ',
+    'offlineNever' => 'Offline, last seen never',
 ];

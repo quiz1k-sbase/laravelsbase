@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Redirect;
@@ -14,7 +15,14 @@ class PostController extends Controller
     {
         $dataPost = Post::join('users', 'user_id', '=', 'users.id')->get(['posts.*', 'users.username'])->sortByDesc('id');
         $dataComment= Comment::join('users', 'user_id', '=', 'users.id')->get(['comments.*', 'users.username'])->sortByDesc('id');
-        return view('dashboard', compact('dataPost', 'dataComment'));
+        $users = User::all();
+        $lastSeen = [];
+        foreach ($users as $user) {
+            $lastSeen += [
+                $user->id => $user->last_seen,
+            ];
+        }
+        return view('dashboard', compact('dataPost', 'dataComment', 'lastSeen'));
     }
 
     public function store(Request $request)

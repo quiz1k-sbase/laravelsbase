@@ -48,7 +48,7 @@
             <div class="d-flex card-header justify-content-center">{{ __('dashboard.posts') }}</div>
             <div class="card-body">
                 <div class="row row-cols-1 g-3" id="all_comments">
-                @if(count($dataPost) > 0)
+                    @if(count($dataPost) > 0)
 
                     @foreach($dataPost as $row)
                         @if($row->text_en !== null && session()->get('locale') === 'en')
@@ -61,7 +61,16 @@
                                         @endif
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="btn-group">
-                                                <small class="text-muted">{{  $row->username }}</small>
+                                                <small class="text-muted me-2">{{  $row->username }}</small>
+                                                @if(Cache::has('is_online' . $row->user_id))
+                                                    <span class="text-success">{{ __('dashboard.online') }}</span>
+                                                @else
+                                                    @if($lastSeen[$row->user_id] !== null)
+                                                        <span class="text-secondary"> {{ __('dashboard.offline') . \Carbon\Carbon::parse($lastSeen[$row->user_id])->diffForHumans() }}</span>
+                                                    @else
+                                                        <span class="text-secondary">{{ __('dashboard.offlineNever') }}</span>
+                                                    @endif
+                                                @endif
                                             </div>
                                             <small class="text-muted">{{ date('d F Y G:i', strtotime($row->created_at)) }}</small>
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -118,7 +127,16 @@
                                         @endif
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="btn-group">
-                                                <small class="text-muted">{{  $row->username }}</small>
+                                                <small class="text-muted me-2">{{  $row->username }}</small>
+                                                @if(Cache::has('is_online' . $row->user_id))
+                                                    <span class="text-success">{{ __('dashboard.online') }}</span>
+                                                @else
+                                                    @if($lastSeen[$row->user_id] !== null)
+                                                        <span class="text-secondary"> {{ __('dashboard.offline') . \Carbon\Carbon::parse($lastSeen[$row->user_id])->diffForHumans() }}</span>
+                                                    @else
+                                                        <span class="text-secondary">{{ __('dashboard.offlineNever') }}</span>
+                                                    @endif
+                                                @endif
                                             </div>
                                             <small class="text-muted">{{ date('d F Y G:i', strtotime($row->created_at)) }}</small>
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -175,7 +193,16 @@
                                         @endif
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="btn-group">
-                                                <small class="text-muted">{{  $row->username }}</small>
+                                                <small class="text-muted me-2">{{  $row->username }}</small>
+                                                @if(Cache::has('is_online' . $row->user_id))
+                                                    <span class="text-success">{{ __('dashboard.online') }}</span>
+                                                @else
+                                                    @if($lastSeen[$row->user_id] !== null)
+                                                        <span class="text-secondary"> {{ __('dashboard.offline') . \Carbon\Carbon::parse($lastSeen[$row->user_id])->diffForHumans() }}</span>
+                                                    @else
+                                                        <span class="text-secondary">{{ __('dashboard.offlineNever') }}</span>
+                                                    @endif
+                                                @endif
                                             </div>
                                             <small class="text-muted">{{ date('d F Y G:i', strtotime($row->created_at)) }}</small>
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
