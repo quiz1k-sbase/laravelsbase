@@ -45,7 +45,7 @@ class ScraperController extends Controller
 
         $response = $client->request('GET', $url);
 
-        $response->filter('.ticket-item')->each(function ($item, $i) {
+        $response->filter('.ticket-item')->each(function ($item) {
             $this->results[] =  [
                 'title' => $item->filter('.ticket-title')->text(),
                 'description' => $item->filter('.item-char')->each(function ($node) {
@@ -68,23 +68,6 @@ class ScraperController extends Controller
                 $cars[$car] += [
                     'vin' => $empty,
                 ];
-                /*$cars[$car] += [
-                    /*'vin' => $empty->filter('.history-date')->each(function ($node) {
-                        $node->filter('.item')->each(function ($nodeItem) {
-                            return $nodeItem->text();
-                        });
-                    }),*/
-                    /*'vin' => [
-                        /*$empty->filter('.history-date')->text() => $empty->filter('.item')->each(function ($item) {
-                            return $item->text();
-                        }),*/
-                        /*$empty->filter('.history-car')->each(function ($item) {
-                             return[$item->filter('.history-date')->text() => $item->filter('.item')->each(function ($item) {
-                                return $item->text();
-                            })];
-                        }),
-                    ],*/
-                /*];*/
             }
             else {
                 $cars[$car] += [
@@ -92,8 +75,6 @@ class ScraperController extends Controller
                 ];
             }
         }
-
-        //dd($cars);
 
         $html = view('content.cars')->with(['cars' => $cars])->renderSections()['cars'];
         return response()->json(['html' => $html]);

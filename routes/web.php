@@ -70,6 +70,7 @@ Route::controller(SampleController::class)->group(function () {
 
     Route::get('admin/graphs', [GraphController::class, 'index'])->name('graph');
 
+    Route::post('admin/graphs',  [GraphController::class, 'getDate'])->name('graph.send');
 });
 
 Route::resource('dashboard',PostController::class);
@@ -112,3 +113,4 @@ Route::get('/tweets', TwitterController::class)->name('tweets');
 Route::get('autoria', [ScraperController::class, 'index'])->name('autoria');
 Route::post('autoria/fetch-model', [ScraperController::class, 'getModel'])->name('autoria.getModel');
 Route::post('autoria', [ScraperController::class, 'scraper'])->name('autoria.car');
+

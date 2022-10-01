@@ -13,29 +13,22 @@ class GraphController extends Controller
 {
     public function index() {
         if (Auth::check() && Auth::user()->isAdmin()) {
-
-            $createdPosts = Post::select(DB::raw('DAY(created_at) as day, COUNT(id) as post_count'))->groupBy(DB::raw('DAY(created_at)'))->get();
-            $posts  = [];
-            foreach($createdPosts as $val) {
-                $posts += [ $val->day => $val->post_count,
-                ];
-            }
-            $createdPosts = Comment::select(DB::raw('DAY(created_at) as day, COUNT(id) as comment_count'))->groupBy(DB::raw('DAY(created_at)'))->get();
-            $comments  = [];
-            foreach($createdPosts as $val) {
-                $comments += [ $val->day => $val->comment_count,
-                ];
-            }
-            $createdPosts = User::select(DB::raw('DAY(created_at) as day, COUNT(id) as user_count'))->groupBy(DB::raw('DAY(created_at)'))->get();
-            $users  = [];
-            foreach($createdPosts as $val) {
-                $users += [ $val->day => $val->user_count,
-                ];
-            }
-            //dd($created_at);
-            return view('graph.graphs', compact('posts', 'comments', 'users'));
+            return view('graph.graphs');
         } else {
             return redirect('dashboard')->with('success', 'You are not Admin');
         }
+    }
+
+    public function getDate(Request $request)
+    {
+        $createdPosts = Post::select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as day, COUNT(id) as post_count'))->groupBy(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'))->get();
+
+        $createdComments = Comment::select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as day, COUNT(id) as comment_count'))->groupBy(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'))->get();
+
+        $createdUsers = User::select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as day, COUNT(id) as user_count'))->groupBy(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'))->get();
+
+        $date = $request->all();
+
+        return response()->json(['date' => $date, 'posts' => $createdPosts, 'comments' => $createdComments, 'users' => $createdUsers]);
     }
 }
