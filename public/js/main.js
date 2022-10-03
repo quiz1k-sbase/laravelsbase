@@ -112,6 +112,7 @@ function addComment() {
         success: function (data) {
             document.getElementById("comment").value = "";
             document.getElementById("closeModal").click();
+            console.log(locale);
             if (locale === 'en') {
                 let test = $("#commentsContainer-" + id).html();
                 $('#commentsContainer-' + id).html(data.html + test);
@@ -171,6 +172,45 @@ function editPost() {
             document.getElementById("closeEditPost").click();
             document.getElementById("card-text-" + id).innerHTML = editedPost;
             console.log(data);
+        }
+    });
+}
+
+function addReplyComment() {
+    id = globalId;
+    check_csrf();
+    let url = $("#addReply-" + id).data('url');
+    let user_id = $("#user_id").val();
+    let post_id = $("#post_id").val();
+    let locale = $("#locale").val();
+    let comment = document.getElementById("commentReply").value;
+    console.log(comment);
+    $.ajax({
+        type: 'post',
+        url: url,
+        data: {
+            user_id: user_id,
+            post_id: post_id,
+            parent_id: id,
+            comment: comment,
+            locale: locale
+        },
+        success: function (data) {
+            document.getElementById("commentReply").value = "";
+            document.getElementById("closeModalReply").click();
+            if (locale === 'en') {
+                let test = $("#commentsReplyContainer-" + id).html();
+                console.log(id);
+                $('#commentsReplyContainer-' + id).html(data.html + test);
+            }
+            else if (locale === 'ru') {
+                let test = $("#commentsContainer-" + id).html();
+                $('#commentsContainer-' + id).html(data.html + test);
+            }
+            else if (locale === 'uk') {
+                let test = $("#commentsContainer-" + id).html();
+                $('#commentsContainer-' + id).html(data.html + test);
+            }
         }
     });
 }

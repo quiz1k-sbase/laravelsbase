@@ -55,4 +55,5 @@ return [
     'online' => 'Online',
     'offline' => 'Offline, last seen ',
     'offlineNever' => 'Offline, last seen never',
+    'reply' => 'Reply',
 ];

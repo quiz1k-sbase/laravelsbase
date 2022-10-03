@@ -55,16 +55,11 @@ Route::controller(SampleController::class)->group(function () {
 
     Route::get('admin/graphs', [GraphController::class, 'index'])->name('graph');
 
-    Route::post('admin/graphs',  [GraphController::class, 'getDate'])->name('graph.send');
+    Route::post('admin/graphs', [GraphController::class, 'getDate'])->name('graph.send');
+
 });
 
 Route::resource('dashboard',PostController::class);
-
-
-/*Route::controller(PostController::class)->group(function () {
-
-    Route::post('dashboard', 'store')->name('post.store');
-});*/
 
 Route::post('dashboard', [PostController::class, 'store'])->name('post.store');
 Route::post('update', [PostController::class, 'update'])->name('post.update');
@@ -99,3 +94,4 @@ Route::get('autoria', [ScraperController::class, 'index'])->name('autoria');
 Route::post('autoria/fetch-model', [ScraperController::class, 'getModel'])->name('autoria.getModel');
 Route::post('autoria', [ScraperController::class, 'scraper'])->name('autoria.car');
 
+Route::post('/reply/store', [CommentController::class, 'replyStore'])->name('reply.add');

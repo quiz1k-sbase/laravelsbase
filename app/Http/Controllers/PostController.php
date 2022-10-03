@@ -14,7 +14,7 @@ class PostController extends Controller
     public function index()
     {
         $dataPost = Post::join('users', 'user_id', '=', 'users.id')->get(['posts.*', 'users.username'])->sortByDesc('id');
-        $dataComment= Comment::join('users', 'user_id', '=', 'users.id')->get(['comments.*', 'users.username'])->sortByDesc('id');
+        $dataComment = Comment::join('users', 'user_id', '=', 'users.id')->get(['comments.*', 'users.username'])->sortByDesc('id');
         $users = User::all();
         $lastSeen = [];
         foreach ($users as $user) {
