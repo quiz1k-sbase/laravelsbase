@@ -21,11 +21,13 @@ class GraphController extends Controller
 
     public function getDate(Request $request)
     {
-        $createdPosts = Post::select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as day, COUNT(id) as post_count'))->groupBy(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'))->get();
+        $data = $request->all();
+        //$createdPosts = Post::select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as day, COUNT(id) as post_count'))->groupBy(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'))->get();
+        $createdPosts = Post::select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as day, COUNT(id) as post_count'))->where('created_at', '>=', $data['dateFrom'])->where('created_at', '<=', $data['dateTo'])->groupBy(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'))->get();
 
-        $createdComments = Comment::select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as day, COUNT(id) as comment_count'))->groupBy(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'))->get();
+        $createdComments = Comment::select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as day, COUNT(id) as comment_count'))->where('created_at', '>=', $data['dateFrom'])->where('created_at', '<=', $data['dateTo'])->groupBy(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'))->get();
 
-        $createdUsers = User::select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as day, COUNT(id) as user_count'))->groupBy(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'))->get();
+        $createdUsers = User::select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as day, COUNT(id) as user_count'))->where('created_at', '>=', $data['dateFrom'])->where('created_at', '<=', $data['dateTo'])->groupBy(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'))->get();
 
         $date = $request->all();
 

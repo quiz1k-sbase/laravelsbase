@@ -1,22 +1,38 @@
 $(document).ready(function (){
-   $("#sendDate").on('click', function () {
-       check_csrf();
-       let dateFrom = $('#selectDateFrom').val();
-       let dateTo = $('#selectDateTo').val();
-       let url = $("#selectDate").data('url');
-       $.ajax({
-           type: 'POST',
-           url: url,
-           data: {
-              dateFrom: dateFrom,
-              dateTo: dateTo
-           },
-           success: function (data) {
-               setData(data);
-           }
-       });
-   });
+    function search(start, end) {
+        $("#sendDate").on('click', function () {
+            check_csrf();
+            /*let dateFrom = $('#selectDateFrom').val();
+            let dateTo = $('#selectDateTo').val();*/
+            let url = $("#selectDate").data('url');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {
+                    dateFrom: start,
+                    dateTo: end,
+                },
+                success: function (data) {
+                    setData(data);
+                }
+            });
+        });
+    }
+
+    $('#daterange_textbox').daterangepicker({
+        ranges: {
+            'Yesterday' : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days' : [moment().subtract(29, 'days'), moment()],
+            'This month' : [moment().startOf('month'), moment().endOf('month')],
+            'Last month' : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+        },
+        format: 'YYYY-MM-DD',
+    }, function (start = '', end = '') {
+        search(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+    });
 });
+
 
 function setData(date) {
 
@@ -46,7 +62,6 @@ function setData(date) {
                 borderColor: 'rgb(0,152,0)',
                 data: arrPosts,
                 parsing: {
-                    xAxisKey: 'day',
                     yAxisKey: 'post_count'
                 }
             },
@@ -56,7 +71,6 @@ function setData(date) {
                 borderColor: 'rgb(0,47,169)',
                 data: arrComments,
                 parsing: {
-                    xAxisKey: 'day',
                     yAxisKey: 'comment_count'
                 }
             },
@@ -66,7 +80,6 @@ function setData(date) {
                 borderColor: 'rgb(182,0,0)',
                 data: arrUsers,
                 parsing: {
-                    xAxisKey: 'day',
                     yAxisKey: 'user_count'
                 }
             },
@@ -76,10 +89,12 @@ function setData(date) {
     const config = {
         type: 'line',
         data: data,
-        options: {}
+        options: {
+            parsing: {
+                xAxisKey: 'day',
+            }
+        }
     };
-
-    console.log(data);
 
     const myChart = new Chart(
         document.getElementById('myChart'),

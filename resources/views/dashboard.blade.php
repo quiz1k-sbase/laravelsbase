@@ -56,7 +56,7 @@
                     @if(count($dataPost) > 0)
 
                     @foreach($dataPost as $row)
-                        @if($row->text_en !== null && session()->get('locale') === 'en')
+                        @if($row->text_en !== null && app()->getLocale() === 'en')
                             <div class="col" id="post-{{ $row->id }}">
                                 <div class="card shadow-sm">
                                     <div class="card-body">
@@ -122,7 +122,7 @@
                                 </div>
                             </div>
                         @endif
-                        @if($row->text_ru !== null && session()->get('locale') === 'ru')
+                        @if($row->text_ru !== null && app()->getLocale() === 'ru')
                             <div class="col" id="post-{{ $row->id }}">
                                 <div class="card shadow-sm">
                                     <div class="card-body">
@@ -188,7 +188,7 @@
                                 </div>
                             </div>
                         @endif
-                        @if($row->text_uk !== null && session()->get('locale') === 'uk')
+                        @if($row->text_uk !== null && app()->getLocale() === 'uk')
                             <div class="col" id="post-{{ $row->id }}">
                                 <div class="card shadow-sm">
                                     <div class="card-body">

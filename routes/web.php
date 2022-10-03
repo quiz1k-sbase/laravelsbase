@@ -27,21 +27,6 @@ use App\Http\Controllers\TwitterController;
 
 Route::get('lang/{locale}', [LocalizationController::class, 'index'])->name('lang');
 
-/*Route::get('/', function () {
-    return redirect(app()->getLocale());
-});*/
-
-/*Route::get('/login', function () {
-    return view('login');
-});
-
-Route::get('/register', function () {
-    return view('register');
-});
-
-Route::post('/register', [\App\Http\Controllers\RegisterController::class, 'register'])->name('register');
-Route::post('/login', [\App\Http\Controllers\LoginController::class, 'login'])->name('login');*/
-
 Route::controller(SampleController::class)->group(function () {
 
     Route::get('login', 'index')->name('login');
