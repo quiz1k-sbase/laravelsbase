@@ -1,5 +1,5 @@
 @if(count((array)$comments))
-    @foreach($comments as $comment)
+    @foreach(collect($comments)->sortByDesc('id') as $comment)
         @if(count((array)$comment->replies))
             <div class="card w-75 mt-2" id="comment-{{ $comment->id }}">
                 <div class="card-body" id="commentBody">

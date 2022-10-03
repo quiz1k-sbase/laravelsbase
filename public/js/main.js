@@ -204,12 +204,12 @@ function addReplyComment() {
                 $('#commentsReplyContainer-' + id).html(data.html + test);
             }
             else if (locale === 'ru') {
-                let test = $("#commentsContainer-" + id).html();
-                $('#commentsContainer-' + id).html(data.html + test);
+                let test = $("#commentsReplyContainer-" + id).html();
+                $('#commentsReplyContainer-' + id).html(data.html + test);
             }
             else if (locale === 'uk') {
-                let test = $("#commentsContainer-" + id).html();
-                $('#commentsContainer-' + id).html(data.html + test);
+                let test = $("#commentsReplyContainer-" + id).html();
+                $('#commentsReplyContainer-' + id).html(data.html + test);
             }
         }
     });

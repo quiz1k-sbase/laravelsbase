@@ -98,34 +98,32 @@
                                                 @foreach($dataComment as $rowComm)
                                                     @if($row->id === $rowComm->post_id)
                                                         @if($rowComm->parent_id === null)
-                                                    <div class="card w-75 mt-2" id="comment-{{ $rowComm->id }}">
-                                                        <div class="card-body" id="commentBody">
-                                                            <p class="card-text" id="comment-text-{{ $rowComm->id }}">{{ $rowComm->comment }}</p>
-                                                            <small class="text-muted">{{ $rowComm->username }}</small>
-                                                            <small class="text-muted">{{ date('d F Y G:i', strtotime($rowComm->created_at)) }}</small>
-                                                            <input type="hidden" value="{{ $row->id }}" id="post_id">
-                                                            @if(Auth::user()->id === $rowComm->user_id  || Auth::user()->isAdmin())
-                                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                                    data-bs-target="#addReply"
-                                                                    data-url="{{ route('reply.add') }}" onclick="getId({{ $rowComm->id }})"
-                                                                    id="addReply-{{ $rowComm->id }}">{{ __('dashboard.reply') }}</button>
-                                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                                    data-bs-target="#editComm" onclick="getId({{ $rowComm->id }})"
-                                                                    data-url="{{ route('comment.editComment') }}"
-                                                                    id="editComm-{{ $rowComm->id }}">{{ __('dashboard.edit-button') }}</button>
-                                                                <button type="button" class="btn btn-danger"
-                                                                    onclick="deleteComment({{ $rowComm->id }})"
-                                                                    id="deleteComm-{{ $rowComm->id }}"
-                                                                    data-url="{{ route('comment.destroy', $rowComm->id) }}">{{ __('dashboard.delete-button') }}</button>
-                                                            @endif
-                                                            <div class="container g-3" id="commentsReplyContainer-{{ $rowComm->id }}">
-                                                                @include('child-comment-list',['comments'=>$rowComm->replies])
+                                                            <div class="card w-75 mt-2" id="comment-{{ $rowComm->id }}">
+                                                                <div class="card-body" id="commentBody">
+                                                                    <p class="card-text" id="comment-text-{{ $rowComm->id }}">{{ $rowComm->comment }}</p>
+                                                                    <small class="text-muted">{{ $rowComm->username }}</small>
+                                                                    <small class="text-muted">{{ date('d F Y G:i', strtotime($rowComm->created_at)) }}</small>
+                                                                    <input type="hidden" value="{{ $row->id }}" id="post_id">
+                                                                    @if(Auth::user()->id === $rowComm->user_id  || Auth::user()->isAdmin())
+                                                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                                            data-bs-target="#addReply"
+                                                                            data-url="{{ route('reply.add') }}" onclick="getId({{ $rowComm->id }})"
+                                                                            id="addReply-{{ $rowComm->id }}">{{ __('dashboard.reply') }}</button>
+                                                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                                            data-bs-target="#editComm" onclick="getId({{ $rowComm->id }})"
+                                                                            data-url="{{ route('comment.editComment') }}"
+                                                                            id="editComm-{{ $rowComm->id }}">{{ __('dashboard.edit-button') }}</button>
+                                                                        <button type="button" class="btn btn-danger"
+                                                                            onclick="deleteComment({{ $rowComm->id }})"
+                                                                            id="deleteComm-{{ $rowComm->id }}"
+                                                                            data-url="{{ route('comment.destroy', $rowComm->id) }}">{{ __('dashboard.delete-button') }}</button>
+                                                                    @endif
+                                                                    <div class="container g-3" id="commentsReplyContainer-{{ $rowComm->id }}">
+                                                                        @include('child-comment-list',['comments'=>$rowComm->replies])
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-
-
-                                                    </div>
-                                                            @endif
+                                                        @endif
                                                     @endif
                                                 @endforeach
                                             @endif
@@ -175,23 +173,33 @@
                                             @if(count($dataComment) > 0)
                                                 @foreach($dataComment as $rowComm)
                                                     @if($row->id === $rowComm->post_id)
-                                                        <div class="card w-50 mt-2" id="comment-{{ $rowComm->id }}">
-                                                            <div class="card-body" id="commentBody">
-                                                                <p class="card-text" id="comment-text-{{ $rowComm->id }}">{{ $rowComm->comment }}</p>
-                                                                <small class="text-muted">{{ $rowComm->username }}</small>
-                                                                <small class="text-muted">{{ date('d F Y G:i', strtotime($rowComm->created_at)) }}</small>
-                                                                @if(Auth::user()->id === $rowComm->user_id  || Auth::user()->isAdmin())
-                                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                                            data-bs-target="#editComm" onclick="getId({{ $rowComm->id }})"
-                                                                            data-url="{{ route('comment.editComment') }}"
-                                                                            id="editComm-{{ $rowComm->id }}">{{ __('dashboard.edit-button') }}</button>
-                                                                    <button type="button" class="btn btn-danger"
-                                                                            onclick="deleteComment({{ $rowComm->id }})"
-                                                                            id="deleteComm-{{ $rowComm->id }}"
-                                                                            data-url="{{ route('comment.destroy', $rowComm->id) }}">{{ __('dashboard.delete-button') }}</button>
-                                                                @endif
+                                                        @if($rowComm->parent_id === null)
+                                                            <div class="card w-75 mt-2" id="comment-{{ $rowComm->id }}">
+                                                                <div class="card-body" id="commentBody">
+                                                                    <p class="card-text" id="comment-text-{{ $rowComm->id }}">{{ $rowComm->comment }}</p>
+                                                                    <small class="text-muted">{{ $rowComm->username }}</small>
+                                                                    <small class="text-muted">{{ date('d F Y G:i', strtotime($rowComm->created_at)) }}</small>
+                                                                    <input type="hidden" value="{{ $row->id }}" id="post_id">
+                                                                    @if(Auth::user()->id === $rowComm->user_id  || Auth::user()->isAdmin())
+                                                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                                                data-bs-target="#addReply"
+                                                                                data-url="{{ route('reply.add') }}" onclick="getId({{ $rowComm->id }})"
+                                                                                id="addReply-{{ $rowComm->id }}">{{ __('dashboard.reply') }}</button>
+                                                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                                                data-bs-target="#editComm" onclick="getId({{ $rowComm->id }})"
+                                                                                data-url="{{ route('comment.editComment') }}"
+                                                                                id="editComm-{{ $rowComm->id }}">{{ __('dashboard.edit-button') }}</button>
+                                                                        <button type="button" class="btn btn-danger"
+                                                                                onclick="deleteComment({{ $rowComm->id }})"
+                                                                                id="deleteComm-{{ $rowComm->id }}"
+                                                                                data-url="{{ route('comment.destroy', $rowComm->id) }}">{{ __('dashboard.delete-button') }}</button>
+                                                                    @endif
+                                                                    <div class="container g-3" id="commentsReplyContainer-{{ $rowComm->id }}">
+                                                                        @include('child-comment-list',['comments'=>$rowComm->replies])
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        @endif
                                                     @endif
                                                 @endforeach
                                             @endif
@@ -241,23 +249,33 @@
                                             @if(count($dataComment) > 0)
                                                 @foreach($dataComment as $rowComm)
                                                     @if($row->id === $rowComm->post_id)
-                                                        <div class="card w-50 mt-2" id="comment-{{ $rowComm->id }}">
-                                                            <div class="card-body" id="commentBody">
-                                                                <p class="card-text" id="comment-text-{{ $rowComm->id }}">{{ $rowComm->comment }}</p>
-                                                                <small class="text-muted">{{ $rowComm->username }}</small>
-                                                                <small class="text-muted">{{ date('d F Y G:i', strtotime($rowComm->created_at)) }}</small>
-                                                                @if(Auth::user()->id === $rowComm->user_id  || Auth::user()->isAdmin())
-                                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                                            data-bs-target="#editComm" onclick="getId({{ $rowComm->id }})"
-                                                                            data-url="{{ route('comment.editComment') }}"
-                                                                            id="editComm-{{ $rowComm->id }}">{{ __('dashboard.edit-button') }}</button>
-                                                                    <button type="button" class="btn btn-danger"
-                                                                            onclick="deleteComment({{ $rowComm->id }})"
-                                                                            id="deleteComm-{{ $rowComm->id }}"
-                                                                            data-url="{{ route('comment.destroy', $rowComm->id) }}">{{ __('dashboard.delete-button') }}</button>
-                                                                @endif
+                                                        @if($rowComm->parent_id === null)
+                                                            <div class="card w-75 mt-2" id="comment-{{ $rowComm->id }}">
+                                                                <div class="card-body" id="commentBody">
+                                                                    <p class="card-text" id="comment-text-{{ $rowComm->id }}">{{ $rowComm->comment }}</p>
+                                                                    <small class="text-muted">{{ $rowComm->username }}</small>
+                                                                    <small class="text-muted">{{ date('d F Y G:i', strtotime($rowComm->created_at)) }}</small>
+                                                                    <input type="hidden" value="{{ $row->id }}" id="post_id">
+                                                                    @if(Auth::user()->id === $rowComm->user_id  || Auth::user()->isAdmin())
+                                                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                                                data-bs-target="#addReply"
+                                                                                data-url="{{ route('reply.add') }}" onclick="getId({{ $rowComm->id }})"
+                                                                                id="addReply-{{ $rowComm->id }}">{{ __('dashboard.reply') }}</button>
+                                                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                                                data-bs-target="#editComm" onclick="getId({{ $rowComm->id }})"
+                                                                                data-url="{{ route('comment.editComment') }}"
+                                                                                id="editComm-{{ $rowComm->id }}">{{ __('dashboard.edit-button') }}</button>
+                                                                        <button type="button" class="btn btn-danger"
+                                                                                onclick="deleteComment({{ $rowComm->id }})"
+                                                                                id="deleteComm-{{ $rowComm->id }}"
+                                                                                data-url="{{ route('comment.destroy', $rowComm->id) }}">{{ __('dashboard.delete-button') }}</button>
+                                                                    @endif
+                                                                    <div class="container g-3" id="commentsReplyContainer-{{ $rowComm->id }}">
+                                                                        @include('child-comment-list',['comments'=>$rowComm->replies])
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        @endif
                                                     @endif
                                                 @endforeach
                                             @endif
