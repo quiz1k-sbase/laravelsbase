@@ -56,4 +56,13 @@ return [
     'offline' => 'Offline, last seen ',
     'offlineNever' => 'Offline, last seen never',
     'reply' => 'Reply',
+    'userCabinet' => 'Personal cabinet',
+    'changeEmail' => 'Change email',
+    'inputOldEmail' => 'Enter your old email',
+    'inputNewEmail' => 'Enter new email',
+    'changeName' => 'Change Name',
+    'inputOldFirstName' => 'Input old first name',
+    'inputNewFirstName' => 'Input new first name',
+    'inputOldLastName' => 'Input old last name',
+    'inputNewLastName' => 'Input new last name',
 ];

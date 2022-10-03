@@ -20,6 +20,9 @@
                                 <a class="btn btn-danger" href="{{ route('graph') }}" >Admin panel</a>
                             </li>
                         @endif
+                        <li class="nav-item me-2">
+                            <a class="btn btn-danger" href="{{ route('cabinet') }}" >{{ __('dashboard.userCabinet') }}</a>
+                        </li>
                         <li class="nav-item">
                             <a class="btn btn-danger" href="{{ route('logout') }}" >{{ __('dashboard.logout') }}</a>
                         </li>

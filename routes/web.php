@@ -57,6 +57,13 @@ Route::controller(SampleController::class)->group(function () {
 
     Route::post('admin/graphs', [GraphController::class, 'getDate'])->name('graph.send');
 
+    Route::get('cabinet', [SampleController::class, 'cabinet'])->name('cabinet');
+
+    Route::post('add-profile-photo', [SampleController::class, 'addPhoto'])->name('addProfilePhoto');
+
+    Route::post('change-email', [SampleController::class, 'changeEmail'])->name('changeEmail');
+
+    Route::post('change-name', [SampleController::class, 'changeName'])->name('changeName');
 });
 
 Route::resource('dashboard',PostController::class);

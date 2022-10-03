@@ -146,5 +146,63 @@ class SampleController extends Controller
         return redirect()->route('login')->with('message', $message);
     }
 
+    public function cabinet()
+    {
+        return view('user.cabinet');
+    }
+
+    private function storeImage(Request $request)
+    {
+        if ($request->file != 'undefined') {
+            $newImageName = uniqid() . '-userphoto' . '.' . $request->file->extension();
+            return $request->file->move('images/', $newImageName);
+        }
+        else {
+            return null;
+        }
+    }
+
+    public function addPhoto(Request $request)
+    {
+        $request->validate([
+            'file' => 'nullable|max:2048|'
+        ]);
+        $data = $request->all();
+        User::where('id', '=', Auth::user()->id)->update([
+            'image' => $this->storeImage($request) ?? null,
+        ]);
+        return response()->json(['success' => 'Photo uploaded successfully']);
+    }
+
+    public function changeEmail(Request $request) {
+        $data = $request->all();
+
+        if ($data['oldEmail'] === Auth::user()->email) {
+
+            User::where('id', '=', Auth::user()->id)->update([
+                'email' => $data['newEmail'],
+            ]);
+            return response()->json(['success' => 'Email changed successfully ']);
+        }
+        else {
+            return response()->json(['success' => 'Something went wrong']);
+        }
+    }
+
+    public function changeName(Request $request) {
+        $data = $request->all();
+
+        if ($data['oldFirstName'] === Auth::user()->first_name && $data['oldLastName'] === Auth::user()->last_name) {
+
+            User::where('id', '=', Auth::user()->id)->update([
+                'first_name' => $data['newFirstName'],
+                'last_name' => $data['newLastName'],
+            ]);
+            return response()->json(['success' => 'Name changed successfully ']);
+        }
+        else {
+            return response()->json(['success' => 'Something went wrong']);
+        }
+    }
 
 }

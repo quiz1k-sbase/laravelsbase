@@ -214,3 +214,72 @@ function addReplyComment() {
         }
     });
 }
+
+function addProfilePhoto() {
+    check_csrf();
+    event.preventDefault();
+    let url = $("#profilePhoto").data('url');
+
+    var fileInput = document.getElementById('addProfilePhoto');
+    var file = fileInput.files[0];
+    var formData = new FormData();
+    formData.append('file', file);
+    $.ajax({
+        method: 'POST',
+        url: url,
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+
+        }
+    });
+};
+
+function changeEmail() {
+    check_csrf();
+    let url = $("#changeEmailButton").data('url');
+    let oldEmail = $("#oldEmail").val();
+    let newEmail = $("#newEmail").val();
+    $.ajax({
+        method: 'POST',
+        url: url,
+        data: {
+            oldEmail: oldEmail,
+            newEmail: newEmail,
+        },
+        success: function (data) {
+            document.getElementById("oldEmail").value = "";
+            document.getElementById("newEmail").value = "";
+            document.getElementById("email-text").innerHTML = newEmail;
+            document.getElementById("closeModalChangeEmail").click();
+        }
+    });
+};
+
+function changeName() {
+    check_csrf();
+    let url = $("#changeNameButton").data('url');
+    let oldFirstName = $("#oldFirstName").val();
+    let newFirstName = $("#newFirstName").val();
+    let oldLastName = $("#oldLastName").val();
+    let newLastName = $("#newLastName").val();
+    $.ajax({
+        method: 'POST',
+        url: url,
+        data: {
+            oldFirstName: oldFirstName,
+            newFirstName: newFirstName,
+            oldLastName: oldLastName,
+            newLastName: newLastName,
+        },
+        success: function (data) {
+            document.getElementById("oldFirstName").value = "";
+            document.getElementById("newFirstName").value = "";
+            document.getElementById("oldLastName").value = "";
+            document.getElementById("newLastName").value = "";
+            document.getElementById("name").innerHTML = newFirstName + ' ' + newLastName;
+            document.getElementById("closeModalChangeName").click();
+        }
+    });
+};

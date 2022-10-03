@@ -28,7 +28,7 @@ class User extends Authenticatable
         'country_id',
         'state_id',
         'city_id',
-        'is_email_verified'
+        'is_email_verified',
     ];
 
     /**

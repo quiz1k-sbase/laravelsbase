@@ -55,4 +55,13 @@ return [
     'offline' => 'Не в сети, был(а) ',
     'offlineNever' => 'Не в сети, был(а) недавно',
     'reply' => 'Ответить',
+    'userCabinet' => 'Личный кабинет',
+    'changeEmail' => 'Смена емейла',
+    'inputOldEmail' => 'Введите ваш старый емейл',
+    'inputNewEmail' => 'Введите новый емейл',
+    'changeName' => 'Сменить имя',
+    'inputOldFirstName' => 'Введите старое имя',
+    'inputNewFirstName' => 'Введине новое имя',
+    'inputOldLastName' => 'Введите старую фамилию',
+    'inputNewLastName' => 'Введите новую фамилию',
 ];
